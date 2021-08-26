@@ -1,20 +1,19 @@
+import './Controls.css'
 import React from 'react'
 
 function Controls({ clearGrid, createRandomCells, running, handleRunning }) {
     return (
-        <>
-            <div>
-                <button onClick={() => createRandomCells()}>
-                    random
-                </button>
-                <button onClick={() => handleRunning()}>
-                    {running ? 'stop' : 'start'}
-                </button>
-                <button onClick={() => clearGrid()}>
-                    clear
-                </button>
-            </div>
-        </>
+        <div className="Controls">
+            <button onClick={() => createRandomCells()}>
+                Random
+            </button>
+            <button onClick={() => handleRunning()}>
+                {running ? 'Stop' : 'Start'}
+            </button>
+            <button onClick={() => clearGrid()}>
+                Clear
+            </button>
+        </div>
     )
 }
 

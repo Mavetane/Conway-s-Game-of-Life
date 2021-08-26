@@ -3,14 +3,14 @@ import produce from 'immer';
 import { gridFunctions } from '../game_functions/grid'
 import Controls from '../controls/Controls';
 
-const numberOfRows = 25;
-const numberOfColumns = 40;
-
+const numberOfRows = 45;
+const numberOfColumns = 80;
 function Grid() {
     const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
     const [running, setRunning] = useState(false);
     const runningRef = useRef(running)
     runningRef.current = running
+
     const [grid, setGrid] = useState(() => {
         return generateEmptyGrid(numberOfRows, numberOfColumns)
     })
@@ -31,10 +31,11 @@ function Grid() {
             setGrid(newGrid)
         }}
         style={{
-            width: 20, height: 20,
+            width: 15, height: 15,
             backgroundColor: grid[rowIndex][columnIndex] ? '#282c34' : undefined,
             border: '1px solid black'
         }} />))
+
     const runSimulation = useCallback(() => {
         if (!runningRef.current) {
             return
@@ -68,9 +69,14 @@ function Grid() {
             <div
                 style={{
                     display: 'grid',
-                    gridTemplateColumns: `repeat(${numberOfColumns}, 20px)`,
+                    gridTemplateColumns: `repeat(${numberOfColumns}, 15px)`,
                     justifyContent: 'center',
                     marginTop: '4%',
+                    marginLeft: '2%',
+                    marginRight: '2%',
+                    height: '70vh',
+                    overflow: 'scroll',
+                    backgroundColor: 'yellow'
                 }}>
                 {displayGrid()}
             </div>

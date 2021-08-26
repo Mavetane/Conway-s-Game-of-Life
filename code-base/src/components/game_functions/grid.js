@@ -17,11 +17,11 @@ export const gridFunctions = () => {
 
         const rows = []
         for (let i = 0; i < numberOfRows; i++) {
-            rows.push(Array.from(Array(numberOfColumns), () => 0))
+            rows.push(Array.from(Array(numberOfColumns), () => (Math.random() > 0.9 ? 1 : 0)))
         }
         return rows
     }
-    const copmuteGameRules = (currentGrid, numberOfRows, numberOfColumns,gridCopy) => {
+    const copmuteGameRules = (currentGrid, numberOfRows, numberOfColumns, gridCopy) => {
         for (let i = 0; i < numberOfRows; i++) {
             for (let k = 0; k < numberOfColumns; k++) {
                 let neighbors = 0;
@@ -42,5 +42,6 @@ export const gridFunctions = () => {
         }
     }
     
-    return { generateEmptyGrid, copmuteGameRules}
+
+    return { generateEmptyGrid, copmuteGameRules }
 }

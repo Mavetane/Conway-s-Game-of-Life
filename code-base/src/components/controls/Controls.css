@@ -1,0 +1,10 @@
+.Controls {
+    margin-top: 4%;
+    margin-bottom: -3%;
+
+}
+.Controls > button {
+    margin: 0.2%;
+    height: 2vw;
+    width: 4vw;;
+}
