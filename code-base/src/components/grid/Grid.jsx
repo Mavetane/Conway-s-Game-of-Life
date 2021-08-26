@@ -1,26 +1,21 @@
 import React, { useCallback, useRef, useState } from 'react';
 import produce from 'immer';
+import { gridFunctions } from '../game_functions/grid'
 const numberOfRows = 25;
 const numberOfColumns = 40;
-const operations = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 1],
-    [1, 0],
-]
+
 function Grid() {
+    const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
     const [grid, setGrid] = useState(() => {
+        return generateEmptyGrid(numberOfRows, numberOfColumns)
+    })
+    const generateRandomCells = () => {
         const rows = []
         for (let i = 0; i < numberOfRows; i++) {
-            rows.push(Array.from(Array(numberOfColumns), () => 0))
+            rows.push(Array.from(Array(numberOfColumns), () => (Math.random() > 0.8 ? 1 : 0)))
         }
-        return rows
-    })
-
+        setGrid(rows)
+    }
 
     const displayGrid = () => grid.map((rows, rowIndex) => rows.map((column, columnIndex) => <div
         key={`${rowIndex}-${columnIndex}`}
@@ -44,27 +39,10 @@ function Grid() {
         }
         setGrid(currentGrid => {
             return produce(currentGrid, gridCopy => {
-                for (let i = 0; i < numberOfRows; i++) {
-                    for (let k = 0; k < numberOfColumns; k++) {
-                        let neighbors = 0;
-                        operations.forEach(([x, y]) => {
-                            const newI = i + x;
-                            const newK = k + y
-                            if (newI >= 0 && newI < numberOfRows && newK >= 0 && newK < numberOfColumns) {
-                                neighbors += currentGrid[newI][newK]
-                            }
-                        })
-                        if (neighbors < 2 || neighbors > 3) {
-                            gridCopy[i][k] = 0
-                        } else if (currentGrid[i][k] === 0 && neighbors === 3) {
-                            gridCopy[i][k] = 1
-                        }
-
-                    }
-                }
+                copmuteGameRules(currentGrid, numberOfRows, numberOfColumns, gridCopy)
             })
         })
-        setTimeout(runSimulation, 800)
+        setTimeout(runSimulation, 500)
     }, [])
     return (
         <>
@@ -78,6 +56,16 @@ function Grid() {
                 }}
             >
                 {running ? 'stop' : 'start'}
+            </button>
+            <button onClick={() => {
+                generateRandomCells()
+            }}>
+                random
+            </button>
+            <button onClick={() => {
+                setGrid(generateEmptyGrid(numberOfRows, numberOfColumns))
+            }}>
+                clear
             </button>
             <div
                 style={{
