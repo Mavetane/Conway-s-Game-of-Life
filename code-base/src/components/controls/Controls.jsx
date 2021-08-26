@@ -4,13 +4,16 @@ import React from 'react'
 function Controls({ clearGrid, createRandomCells, running, handleRunning }) {
     return (
         <div className="Controls">
-            <button onClick={() => createRandomCells()}>
-                Random
-            </button>
-            <button onClick={() => handleRunning()}>
+            <button data-testid="toggle-btn"
+                onClick={() => handleRunning()}>
                 {running ? 'Stop' : 'Start'}
             </button>
-            <button onClick={() => clearGrid()}>
+            <button data-testid="random-btn"
+                onClick={() => createRandomCells()}>
+                Random
+            </button>
+            <button data-testid="clear-btn"
+                onClick={() => clearGrid()}>
                 Clear
             </button>
         </div>

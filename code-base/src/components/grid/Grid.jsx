@@ -76,7 +76,7 @@ function Grid() {
                     marginRight: '2%',
                     height: '70vh',
                     overflow: 'scroll',
-                    backgroundColor: 'yellow'
+                    border: '3px solid lightgrey'
                 }}>
                 {displayGrid()}
             </div>
