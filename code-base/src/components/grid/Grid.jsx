@@ -1,11 +1,16 @@
 import React, { useCallback, useRef, useState } from 'react';
 import produce from 'immer';
 import { gridFunctions } from '../game_functions/grid'
+import Controls from '../controls/Controls';
+
 const numberOfRows = 25;
 const numberOfColumns = 40;
 
 function Grid() {
     const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
+    const [running, setRunning] = useState(false);
+    const runningRef = useRef(running)
+    runningRef.current = running
     const [grid, setGrid] = useState(() => {
         return generateEmptyGrid(numberOfRows, numberOfColumns)
     })
@@ -30,9 +35,6 @@ function Grid() {
             backgroundColor: grid[rowIndex][columnIndex] ? '#282c34' : undefined,
             border: '1px solid black'
         }} />))
-    const [running, setRunning] = useState(false);
-    const runningRef = useRef(running)
-    runningRef.current = running
     const runSimulation = useCallback(() => {
         if (!runningRef.current) {
             return
@@ -44,29 +46,25 @@ function Grid() {
         })
         setTimeout(runSimulation, 500)
     }, [])
+    const toggleRunning = () => {
+        setRunning(!running)
+        if (!running) {
+            runningRef.current = true;
+            runSimulation()
+        }
+    }
+
+    const resetGrid = () => {
+        setGrid(generateEmptyGrid(numberOfRows, numberOfColumns))
+    }
     return (
         <>
-            <button
-                onClick={() => {
-                    setRunning(!running)
-                    if (!running) {
-                        runningRef.current = true;
-                        runSimulation()
-                    }
-                }}
-            >
-                {running ? 'stop' : 'start'}
-            </button>
-            <button onClick={() => {
-                generateRandomCells()
-            }}>
-                random
-            </button>
-            <button onClick={() => {
-                setGrid(generateEmptyGrid(numberOfRows, numberOfColumns))
-            }}>
-                clear
-            </button>
+            <Controls
+                running={running}
+                clearGrid={resetGrid}
+                createRandomCells={generateRandomCells}
+                handleRunning={toggleRunning}
+            />
             <div
                 style={{
                     display: 'grid',
