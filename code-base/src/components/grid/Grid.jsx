@@ -5,9 +5,11 @@ import Controls from '../controls/Controls';
 
 const numberOfRows = 45;
 const numberOfColumns = 80;
+var genTracker = 0
 function Grid() {
     const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
     const [running, setRunning] = useState(false);
+    // const [genTracker, setGenTracker] = useState(0)
     const runningRef = useRef(running)
     runningRef.current = running
 
@@ -45,7 +47,8 @@ function Grid() {
                 copmuteGameRules(currentGrid, numberOfRows, numberOfColumns, gridCopy)
             })
         })
-        setTimeout(runSimulation, 500)
+        genTracker ++;
+        setTimeout(runSimulation, 300)
     }, [])
     const toggleRunning = () => {
         setRunning(!running)
@@ -57,6 +60,7 @@ function Grid() {
 
     const resetGrid = () => {
         setGrid(generateEmptyGrid(numberOfRows, numberOfColumns))
+        genTracker = 0;
     }
     return (
         <>
@@ -65,7 +69,15 @@ function Grid() {
                 clearGrid={resetGrid}
                 createRandomCells={generateRandomCells}
                 handleRunning={toggleRunning}
-            />
+            /><br/>
+            <div>
+                <h1>
+                    Generation:
+                    <label data-testid="generation-number">
+                        {genTracker}
+                    </label>
+                </h1>
+            </div>
             <div
                 style={{
                     display: 'grid',
