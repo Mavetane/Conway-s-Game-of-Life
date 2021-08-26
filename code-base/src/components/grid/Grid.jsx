@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import produce from 'immer';
 const numberOfRows = 25;
 const numberOfColumns = 40;
 function Grid() {
@@ -11,23 +12,39 @@ function Grid() {
     })
 
 
-    const displayGrid = () => grid.map((rows, rowIndex) => rows.map((column, columnindex) => <div
-        key={`${rowIndex}-${columnindex}`}
+    const displayGrid = () => grid.map((rows, rowIndex) => rows.map((column, columnIndex) => <div
+        key={`${rowIndex}-${columnIndex}`}
+        onClick={() => {
+            const newGrid = produce(grid, gridCopy => {
+                gridCopy[rowIndex][columnIndex] = grid[rowIndex][columnIndex] ? 0 : 1; 
+            })
+            setGrid(newGrid)
+        }}
         style={{
             width: 20, height: 20,
-            backgroundColor: grid[rowIndex][columnindex] ? 'black' : undefined,
+            backgroundColor: grid[rowIndex][columnIndex] ? '#282c34' : undefined,
             border: '1px solid black'
         }} />))
-
+    const [running, setRunning] = useState(false);
     return (
-        <div style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${numberOfColumns}, 20px)`,
-            justifyContent: 'center',
-            marginTop: '4%',
-        }}>
+        <>
+        <button
+        onClick={() => {
+            setRunning(!running)
+        }}
+        >
+        {running ? 'stop': 'start'}
+        </button>
+        <div
+            style={{
+                display: 'grid',
+                gridTemplateColumns: `repeat(${numberOfColumns}, 20px)`,
+                justifyContent: 'center',
+                marginTop: '4%',
+            }}>
             {displayGrid()}
         </div>
+        </>
     )
 }
 
