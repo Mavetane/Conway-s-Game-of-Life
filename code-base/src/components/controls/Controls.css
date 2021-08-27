@@ -1,12 +1,14 @@
 .Controls {
-    margin-top: 4%;
+    margin-top: 3%;
     margin-bottom: -3%;
-
 }
 .Controls > button {
     margin: 0.2%;
     height: 2vw;
     width: 4vw;;
+    font-family: 'Hina Mincho', serif;
+    font-weight: bold;
+    font-size: 1vw
 }
 .slidecontainer {
     height: 60vh;

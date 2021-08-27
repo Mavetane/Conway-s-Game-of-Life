@@ -6,17 +6,17 @@ import Controls from '../controls/Controls';
 import Slider from '../controls/Slider';
 
 
-const numberOfRows =100;
+const numberOfRows = 100;
 const numberOfColumns = 180;
 var genTracker = 0
 function Grid() {
-    const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
+    const { generateInitialCells, copmuteGameRules } = gridFunctions();
     const [running, setRunning] = useState(false);
     const runningRef = useRef(running)
     runningRef.current = running
 
     const [grid, setGrid] = useState(() => {
-        return generateEmptyGrid(numberOfRows, numberOfColumns)
+        return generateInitialCells(numberOfRows, numberOfColumns)
     })
     const generateRandomCells = () => {
         const rows = []
@@ -35,7 +35,7 @@ function Grid() {
             setGrid(newGrid)
         }}
         style={{
-            width: 15 , height: 15,
+            width: 15, height: 15,
             backgroundColor: grid[rowIndex][columnIndex] ? 'rgb(30, 160, 30)' : undefined,
             border: '1px solid black'
         }} />))
@@ -49,7 +49,7 @@ function Grid() {
                 copmuteGameRules(currentGrid, numberOfRows, numberOfColumns, gridCopy)
             })
         })
-        genTracker ++;
+        genTracker++;
         setTimeout(runSimulation, 300)
     }, [])
     const toggleRunning = () => {
@@ -61,8 +61,12 @@ function Grid() {
     }
 
     const resetGrid = () => {
-        setGrid(generateEmptyGrid(numberOfRows, numberOfColumns))
-        genTracker = 0;
+        const rows = []
+        for (let i = 0; i < numberOfRows; i++) {
+            rows.push(Array.from(Array(numberOfColumns), () => 0))
+        }
+        setGrid(rows)
+        genTracker = 0
     }
     return (
         <>
@@ -71,20 +75,20 @@ function Grid() {
                 clearGrid={resetGrid}
                 createRandomCells={generateRandomCells}
                 handleRunning={toggleRunning}
-            /><br/>
+            /><br />
             <div>
                 <h1>
-                    Generation:
+                    Generation: <br/>
                     <label data-testid="generation-number">
                         {genTracker}
                     </label>
                 </h1>
-            </div>
-           
-                    <Slider 
-                    configuredGrid={displayGrid}
-                    numberOfColumns={numberOfColumns}
-                    />
+            </div><br/>
+            <Slider
+                configuredGrid={displayGrid}
+                numberOfColumns={numberOfColumns}
+            />
+            <p>Hover the board with two fingers to zoom-in and out :)</p>
         </>
     )
 }

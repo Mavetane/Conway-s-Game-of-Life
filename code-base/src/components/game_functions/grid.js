@@ -13,7 +13,7 @@ const operations = [
 ]
 
 export const gridFunctions = () => {
-    const generateEmptyGrid = (numberOfRows, numberOfColumns) => {
+    const generateInitialCells = (numberOfRows, numberOfColumns) => {
 
         const rows = []
         for (let i = 0; i < numberOfRows; i++) {
@@ -43,5 +43,5 @@ export const gridFunctions = () => {
     }
     
 
-    return { generateEmptyGrid, copmuteGameRules }
+    return { generateInitialCells, copmuteGameRules }
 }

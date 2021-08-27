@@ -1,4 +1,10 @@
 h1{
     font-size: 1vw;
-    padding: 2%;
+    padding-top: 1.4%;
+    font-family: 'Hina Mincho', serif;
+}
+p {
+    font-weight: bold;
+    font-size: 1vw;
+    font-family: 'Hina Mincho', serif;
 }
