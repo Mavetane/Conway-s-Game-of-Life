@@ -1,15 +1,17 @@
+import './Grid.css'
 import React, { useCallback, useRef, useState } from 'react';
 import produce from 'immer';
 import { gridFunctions } from '../game_functions/grid'
 import Controls from '../controls/Controls';
+import Slider from '../controls/Slider';
 
-const numberOfRows = 45;
-const numberOfColumns = 80;
+
+const numberOfRows =100;
+const numberOfColumns = 180;
 var genTracker = 0
 function Grid() {
     const { generateEmptyGrid, copmuteGameRules } = gridFunctions();
     const [running, setRunning] = useState(false);
-    // const [genTracker, setGenTracker] = useState(0)
     const runningRef = useRef(running)
     runningRef.current = running
 
@@ -33,8 +35,8 @@ function Grid() {
             setGrid(newGrid)
         }}
         style={{
-            width: 15, height: 15,
-            backgroundColor: grid[rowIndex][columnIndex] ? '#282c34' : undefined,
+            width: 15 , height: 15,
+            backgroundColor: grid[rowIndex][columnIndex] ? 'rgb(30, 160, 30)' : undefined,
             border: '1px solid black'
         }} />))
 
@@ -78,20 +80,11 @@ function Grid() {
                     </label>
                 </h1>
             </div>
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: `repeat(${numberOfColumns}, 15px)`,
-                    justifyContent: 'center',
-                    marginTop: '4%',
-                    marginLeft: '2%',
-                    marginRight: '2%',
-                    height: '70vh',
-                    overflow: 'scroll',
-                    border: '3px solid lightgrey'
-                }}>
-                {displayGrid()}
-            </div>
+           
+                    <Slider 
+                    configuredGrid={displayGrid}
+                    numberOfColumns={numberOfColumns}
+                    />
         </>
     )
 }

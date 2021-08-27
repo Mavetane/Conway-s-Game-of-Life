@@ -15,7 +15,7 @@ function Controls({ clearGrid, createRandomCells, running, handleRunning }) {
             <button data-testid="clear-btn"
                 onClick={() => clearGrid()}>
                 Clear
-            </button>
+            </button><br />
         </div>
     )
 }
